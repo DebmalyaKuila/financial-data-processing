@@ -11,11 +11,13 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.debmalya.financial_data_processing.finance.Category.Category;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
@@ -26,6 +28,7 @@ import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "financial_records",
@@ -35,6 +38,8 @@ import jakarta.persistence.Table;
            @Index(name = "idx_FinancialRecord_created_by", columnList = "created_by")
         }
 )
+@Data
+@EntityListeners(AuditingEntityListener.class)
 public class FinancialRecord {
     @Id
     @GeneratedValue
@@ -59,19 +64,19 @@ public class FinancialRecord {
     private String note="";
 
     //auditing data
-    @Column(nullable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     @CreatedDate
     private Instant createdAt;
 
-    @Column(nullable = false)
+    @Column(name = "updated_at", nullable = false)
     @LastModifiedDate
     private Instant updatedAt;
 
-    @Column(name = "created_by", nullable = false)
+    @Column(name = "created_by", nullable = false, updatable = false)
     @CreatedBy
     private UUID createdBy;
 
-    @Column(nullable = false)
+    @Column(name = "updated_by", nullable = false)
     @LastModifiedBy
     private UUID updatedBy;
 

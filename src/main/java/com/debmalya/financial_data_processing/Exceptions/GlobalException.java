@@ -24,6 +24,18 @@ public class GlobalException extends Exception{
         );
     }
 
+    @ExceptionHandler(CategoryAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleFinanceCategoryAlreadyExistsException(CategoryAlreadyExistsException err){
+
+        return new ErrorResponse(
+            "Conflict", 
+            HttpStatus.CONFLICT.value(), 
+            err.getMessage(), 
+            Instant.now()
+        );
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleGeneralException(Exception e) {

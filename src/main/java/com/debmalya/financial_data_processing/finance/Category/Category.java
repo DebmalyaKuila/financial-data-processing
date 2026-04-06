@@ -14,11 +14,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "categories")
-@Data
+@Getter
 @EntityListeners(AuditingEntityListener.class)
 public class Category {
     @Id
@@ -28,9 +30,11 @@ public class Category {
 
     @Column(nullable = false, unique = true)
     @NotBlank
+    @Setter
     private String name;
 
     @Column(nullable = false)
+    @Setter
     private Boolean isActive=true;
 
     @Column(name = "created_at", nullable = false, updatable = false)
